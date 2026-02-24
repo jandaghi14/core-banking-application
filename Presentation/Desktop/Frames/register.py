@@ -33,18 +33,24 @@ class RegisterFrame(Frame):
         self.entry_username.grid(row=3, column=1, pady=(0,10),padx=(0,10),sticky='we')
         
         self.label_password = Label(self, text='Password:')
-        self.label_password.grid(row=4,column=0,padx=10,pady=(0,10),sticky='e')
+        self.label_password.grid(row=5,column=0,padx=10,pady=(0,10),sticky='e')
         self.entry_password= PasswordEntry(self)
-        self.entry_password.grid(row=4, column=1, pady=(0,10),padx=(0,10),sticky='we')
+        self.entry_password.grid(row=5, column=1, pady=(0,10),padx=(0,10),sticky='we')
 
         self.captcha= CaptchaComponent(self)
-        self.captcha.grid(row=5,column=0,columnspan=2,pady=10)
+        self.captcha.grid(row=6,column=0,columnspan=2,pady=10)
+
+        self.label_email = Label(self, text='Email:')
+        self.label_email.grid(row=4,column=0,padx=10,pady=(0,10),sticky='e')
+        self.entry_email= Entry(self)
+        self.entry_email.grid(row=4, column=1, pady=(0,10),padx=(0,10),sticky='we')
+
 
         self.register_button = Button(self, text="Register!", command=self.register_button_clicked)
-        self.register_button.grid(row=6, column=0,padx=10, pady=(0, 10), sticky="w")
+        self.register_button.grid(row=7, column=0,padx=10, pady=(0, 10), sticky="w")
 
         self.goto_login_button = Button(self, text="Go to Login!", command=self.clicked_go_to_login)
-        self.goto_login_button.grid(row=7, column=0,padx=10, pady=(0, 10), sticky="w")
+        self.goto_login_button.grid(row=8, column=0,padx=10, pady=(0, 10), sticky="w")
 
     
     
@@ -57,9 +63,10 @@ class RegisterFrame(Frame):
         firstname = self.entry_firstname.get()
         lastname = self.entry_lastname.get()
         username = self.entry_username.get()
+        email = self.entry_email.get()
         password = self.entry_password.get_password_value()
         
-        response= self.employee_business.register(firstname, lastname, username,password)
+        response= self.employee_business.register(firstname, lastname, username,password,email)
         
         if response.success:
             messagebox.showinfo("Register Successfully!", response.message)

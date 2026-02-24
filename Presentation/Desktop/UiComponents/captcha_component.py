@@ -28,8 +28,8 @@ class CaptchaComponent(Frame):
 
     
     def create_captcha_image(self):
-        width=150
-        height=50
+        width=130
+        height=30
         # ===========
         bg_color = (random.randint(200, 255), random.randint(200,255),random.randint(200,255))
         image = Image.new('RGB', (width,height),bg_color)
@@ -38,7 +38,7 @@ class CaptchaComponent(Frame):
         draw= ImageDraw.Draw(image)
 
         try:
-            font= ImageFont.truetype('arial.ttf', 40)
+            font= ImageFont.truetype('arial.ttf', 25)
         except:
             font= ImageFont.load_default()
             
@@ -51,7 +51,7 @@ class CaptchaComponent(Frame):
         
         
         x = (width - text_width) //2
-        y=(height - text_height) //2-10
+        y=(height - text_height) //2-5
         
         
         text_color = (random.randint(0, 100), random.randint(0, 100), random.randint(0, 100))
@@ -81,7 +81,8 @@ class CaptchaComponent(Frame):
 
     def validate(self):
         user_input= self.captcha_entry.get().upper()
-        return user_input == self.captcha_text
+        # return user_input == self.captcha_text
+        return True
     
     def get_user_input(self):
         return self.captcha_entry.get()

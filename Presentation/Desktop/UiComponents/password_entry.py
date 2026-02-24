@@ -18,7 +18,7 @@ class PasswordEntry(Frame):
         self.password_entry = Entry(self, show="*")
         self.password_entry.grid(row=0, column=0, sticky="ew")
 
-        self.status_button = Button(self, image=self.close_eye, command=self.status_button_clicked)
+        self.status_button = Button(self, image=self.close_eye, command=self.status_button_clicked, width=25,height=15)
         self.status_button.grid(row=0, column=1, sticky="w")
 
     def status_button_clicked(self):
@@ -34,3 +34,4 @@ class PasswordEntry(Frame):
     def get_password_value(self):
         password = self.password_entry.get()
         return password
+

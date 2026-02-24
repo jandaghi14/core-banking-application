@@ -39,6 +39,7 @@ class LoginFrame(Frame):
 
         self.register_button = Button(self, text="Go to Register", command=self.register_button_clicked)
         self.register_button.grid(row=6, column=1, pady=(0, 10), sticky="w")
+        
 
     def login_button_clicked(self):
         if not self.captcha.validate():
@@ -48,13 +49,13 @@ class LoginFrame(Frame):
         
         username = self.username_entry.get()
         password = self.password_component.get_password_value()
-
         response = self.employee_business.login(username, password)
 
         if not response.success:
             messagebox.showerror("Login Failed!", response.message)
         else:
-            messagebox.showinfo("Login successfully.",response.message)
+            home_frame = self.view_manager.show_frame('home')
+            home_frame.set_current_employee(response.data)
 
     def register_button_clicked(self):
         self.view_manager.show_frame("register")
