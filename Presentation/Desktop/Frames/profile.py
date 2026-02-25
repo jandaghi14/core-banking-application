@@ -25,19 +25,24 @@ class ProfileFrame(Frame):
         self.entry_email = Entry(self)
         self.entry_email.grid(row=3, column=1, padx=10, pady=(0,5), sticky="ew")
 
-        Label(self, text="Status:").grid(row=4, column=0, padx=10, pady=(0,5), sticky="e")
-        self.label_status = Label(self, text="-")
-        self.label_status.grid(row=4, column=1, padx=10, pady=(0,5), sticky="w")
+        Label(self, text="Phone:").grid(row=4, column=0, padx=10, pady=(0,5), sticky="e")
+        self.entry_phone = Entry(self)
+        self.entry_phone.grid(row=4, column=1, padx=10, pady=(0,5), sticky="ew")
 
-        Label(self, text="Role:").grid(row=5, column=0, padx=10, pady=(0,5), sticky="e")
+
+        Label(self, text="Status:").grid(row=5, column=0, padx=10, pady=(0,5), sticky="e")
+        self.label_status = Label(self, text="-")
+        self.label_status.grid(row=5, column=1, padx=10, pady=(0,5), sticky="w")
+
+        Label(self, text="Role:").grid(row=6, column=0, padx=10, pady=(0,5), sticky="e")
         self.label_role = Label(self, text="-")
-        self.label_role.grid(row=5, column=1, padx=10, pady=(0,5), sticky="w")
+        self.label_role.grid(row=6, column=1, padx=10, pady=(0,5), sticky="w")
 
         self.edit_button = Button(self, text="Edit", command=self.edit_button_clicked)
-        self.edit_button.grid(row=6, column=1, padx=10, pady=10, sticky="w")
+        self.edit_button.grid(row=8, column=1, padx=10, pady=10, sticky="w")
         
         self.back_button = Button(self, text="Back", command=self.back_button_clicked)
-        self.back_button.grid(row=7, column=1, padx=10, pady=(0,10), sticky="w")
+        self.back_button.grid(row=9, column=1, padx=10, pady=(0,10), sticky="w")
 
     def edit_button_clicked(self):
         edit_profile_frame = self.view_manager.show_frame('edit_profile')
@@ -64,6 +69,10 @@ class ProfileFrame(Frame):
         self.entry_email.insert(0, employee.email)
         self.entry_email.config(state="readonly")
         
+        self.entry_phone.config(state="normal")
+        self.entry_phone.delete(0, 'end')
+        self.entry_phone.insert(0, employee.phone)
+        self.entry_phone.config(state="readonly")
         
 
         self.label_status.config(text=employee.status.name)
@@ -73,7 +82,7 @@ class ProfileFrame(Frame):
         
         match employee.role:
             case Roles.admin:
-                self.edit_button.grid(row=6, column=1, padx=10, pady=10, sticky="w")
+                self.edit_button.grid(row=7, column=1, padx=10, pady=10, sticky="w")
             case Roles.banker:
                 self.edit_button.grid_forget()
     

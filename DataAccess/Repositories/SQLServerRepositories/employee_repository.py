@@ -21,6 +21,7 @@ class SQLServerEmployeeRepository(IEmployeeRepository):
                        Username,
                        Password,
                        Email,
+                       Phone,
                        StatusId,
                        RoleId
               FROM     Employee
@@ -41,6 +42,7 @@ class SQLServerEmployeeRepository(IEmployeeRepository):
                        Username,
                        Password,
                        Email,
+                       Phone,
                        StatusId,
                        RoleId
               FROM     Employee
@@ -53,7 +55,7 @@ class SQLServerEmployeeRepository(IEmployeeRepository):
             else:
                 return None    
 
-    def insert_new_employee(self, firstname, lastname, username,password,email, employee_status_id=2,role_id=1):
+    def insert_new_employee(self, firstname, lastname, username,password,email, phone, employee_status_id=2,role_id=1):
         with self.create_connection() as connection:
             cursor= connection.cursor()
             cursor.execute("""
@@ -63,16 +65,17 @@ class SQLServerEmployeeRepository(IEmployeeRepository):
                                     Username,
                                     Password,
                                     Email,
+                                    Phone,
                                     StatusId,
                                     RoleId
                      )
-                     VALUES (%s,%s,%s,%s,%s,%s,%s)
-                           """,(firstname,lastname,username,password,email,employee_status_id,role_id))
+                     VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
+                           """,(firstname,lastname,username,password,email,phone,employee_status_id,role_id))
             connection.commit()
             return True
         
         
-    def update_employee(self, employee_id, firstname, lastname, username,email, status_id, role_id):
+    def update_employee(self, employee_id, firstname, lastname, username,email, phone, status_id, role_id):
         with self.create_connection() as connection:
             cursor = connection.cursor()
             cursor.execute("""
@@ -81,10 +84,11 @@ class SQLServerEmployeeRepository(IEmployeeRepository):
                                 ,[LastName] = %s
                                 ,[Username] = %s
                                 ,[Email] = %s
+                                ,[Phone] = %s
                                 ,[StatusId] = %s
                                 ,[RoleId] = %s
                             WHERE id = %s
-                           """,(firstname, lastname, username, email, status_id, role_id, employee_id))
+                           """,(firstname, lastname, username, email, phone, status_id, role_id, employee_id))
             connection.commit()
     
     def update_password(self, employee_id, new_password):

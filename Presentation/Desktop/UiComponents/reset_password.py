@@ -10,6 +10,7 @@ class ResetPassword(Toplevel):
         self.employee_business = employee_business
         self.reset_code = None
         self.time = None
+        self.verify_way = None
         
         
         self.title('Reset Password')
@@ -38,30 +39,47 @@ class ResetPassword(Toplevel):
         Button(self, text="Back", command=self.back_button_clicked).grid(row=8, column=1, padx=10, pady=(0,10), sticky="w")
 
     def send_email_clicked(self):
+        self.verify_way = 'email'
         old_password = self.entry_old_password.get_password_value()
         response = self.employee_business.verify_old_password(self.current_employee,old_password)
         if response.success:
             self.time = datetime.now()
-            response = self.employee_business.send_reset_code(self.current_employee)
-            messagebox.showinfo("Success", "Code sent to your email!")  # add this
+            response = self.employee_business.send_reset_code_email(self.current_employee)
+            messagebox.showinfo("Success", "Code sent to your email!")  
             self.reset_code = response.data
         else:
             messagebox.showerror("Error", response.message)
             
             
-
     def send_sms_clicked(self):
-        pass
+        self.verify_way = 'sms'
+        old_password = self.entry_old_password.get_password_value()
+        response = self.employee_business.verify_old_password(self.current_employee,old_password)
+        if response.success:
+            self.time = datetime.now()
+            response = self.employee_business.send_reset_code_sms(self.current_employee)
+            messagebox.showinfo("Success", "Code sent to your Phone!")  
+            self.reset_code = response.data
+        else:
+            messagebox.showerror("Error", response.message)
+            
 
     def submit_button_clicked(self):
-        if not self.reset_code:
-            messagebox.showerror("Error", "Please request a code first.")
-            return
-        if self.entry_code.get().upper() == self.reset_code and datetime.now() < self.time + timedelta(minutes=2):
-                response = self.employee_business.reset_password(self.current_employee, self.entry_new_password.get_password_value())
-                messagebox.showinfo('Password' , response.message)
-                self.destroy()
-        else:
-            messagebox.showerror("Error", "Invalid or expired code.")
+        if self.verify_way == 'email':
+            if not self.reset_code:
+                messagebox.showerror("Error", "Please request a code first.")
+                return
+            if self.entry_code.get().upper() == self.reset_code and datetime.now() < self.time + timedelta(minutes=2):
+                    response = self.employee_business.reset_password(self.current_employee, self.entry_new_password.get_password_value())
+                    messagebox.showinfo('Password' , response.message)
+                    self.destroy()
+            else:
+                messagebox.showerror("Error", "Invalid or expired code.")
+            
+        
+        
+        
+        
+        
     def back_button_clicked(self):
         self.destroy()
